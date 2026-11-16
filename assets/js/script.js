@@ -45,13 +45,13 @@ class LibroDigitale extends Libro {
 
 // === Stato (array di libri) ===
 
-const libri = [];
+let libri = [];
 
-const listaLibri = document.querySelector('lista-libri');
-const contatore = document.querySelector('contatore');
-const form = document.querySelector('aggiungi-libro');
-const selectFormato = document.querySelector('formato');
-const campoDimensione = document.querySelector('campo-dimensione');
+const listaLibri = document.querySelector('#lista-libri');
+const contatore = document.querySelector('#contatore');
+const form = document.querySelector('#aggiungi-libro');
+const selectFormato = document.querySelector('#formato');
+const campoDimensione = document.querySelector('#campo-dimensione');
 
 // === Render ===
 
@@ -77,7 +77,7 @@ function renderLibri() {
         meta.classList.add('meta');
         meta.textContent = `${l.autore} - ${l.anno}`;
 
-        info.appendChild(titolo, badge, meta);
+        info.append(titolo, badge, meta);
 
         const azioni = document.createElement('div');
         azioni.classList.add('azioni');
@@ -92,7 +92,15 @@ function renderLibri() {
             azioni.appendChild(bottone);
         }
 
-        li.appendChild(info, azioni);
+        //bottone per rimuovere
+        const bottoneRimuovi = document.createElement('button');
+        bottoneRimuovi.type = 'button';
+        bottoneRimuovi.dataset.azione = 'rimuovi';
+        bottoneRimuovi.textContent = 'Rimuovi';
+
+        azioni.append(bottoneRimuovi);
+
+        li.append(info, azioni);
         return li;
     });
 
@@ -116,8 +124,48 @@ selectFormato.addEventListener('change', (e) => {
 
 //submit del form
 
-form.addEventListener('submit', (e) =>{
+form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    cons
+    const dati = Object.fromEntries(new FormData(e.target));
+    //new FormData(form) legge tutti i campi (grazie agli attributi
+    //"name"); Object.fromEntries lo trasforma in un oggetto
+
+    const anno = Number(dati.anno);
+    const dimensioneMb = Number(dati.dimensioneMb);
+
+    let nuovo;
+    if (dati.formato === "digitale") {
+        nuovo = new LibroDigitale(dati.titolo, dati.autore, anno, dimensioneMb);
+    } else {
+        nuovo = new Libro(dati.titolo, dati.autore, anno);
+    }
+
+    libri.push(nuovo);
+    renderLibri();
+
+    e.target.reset();
+    campoDimensione.hidden = true;
+});
+
+
+listaLibri.addEventListener("click", (e) => {
+    // closest() risale dall'elemento cliccato verso l'alto cercando
+    // un elemento che corrisponda al selettore. Se hai cliccato su
+    // qualcosa che non è un bottone "leggi", restituisce null.
+    const bottone = e.target.closest("[data-azione]");
+    if (!bottone) return;
+
+    const id = bottone.closest("li").dataset.id;
+
+    const azione = bottone.dataset.azione;
+
+    if (azione === "leggi") {
+        const libro = libri.find((l) => l.id === id);
+        libro.segnaComeLetto();
+    } else if (azione === "rimuovi") {
+        libri = libri.filter((l) => l.id !== id);
+    }
+    renderLibri();
+
 });
