@@ -47,8 +47,11 @@ class LibroDigitale extends Libro {
 
 const libri = [];
 
-const listaLibri = document.querySelector('lista-libri')
-
+const listaLibri = document.querySelector('lista-libri');
+const contatore = document.querySelector('contatore');
+const form = document.querySelector('aggiungi-libro');
+const selectFormato = document.querySelector('formato');
+const campoDimensione = document.querySelector('campo-dimensione');
 
 // === Render ===
 
@@ -79,8 +82,42 @@ function renderLibri() {
         const azioni = document.createElement('div');
         azioni.classList.add('azioni');
 
+        if (l.letto) {
+            azioni.textContent = '\u2713 letto'; //codice per simbolo di spunta ✓
+        } else {
+            const bottone = document.createElement('button');
+            bottone.type = 'button';
+            bottone.dataset.azione = 'leggi';
+            bottone.textContent = 'Segna come letto';
+            azioni.appendChild(bottone);
+        }
 
-    })
+        li.appendChild(info, azioni);
+        return li;
+    });
+
+    listaLibri.replaceChildren(...righe);
+
+    contatore.textContent = libri.length;
 };
 
 // === Eventi ===
+
+//change al campo hidden
+selectFormato.addEventListener('change', (e) => {
+    e.preventDefault();
+
+    if (e.target.value === 'digitale') {
+        campoDimensione.hidden = false;
+    } else {
+        campoDimensione.hidden = true;
+    }
+});
+
+//submit del form
+
+form.addEventListener('submit', (e) =>{
+    e.preventDefault();
+
+    cons
+});
