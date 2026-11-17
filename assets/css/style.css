@@ -1,8 +1,9 @@
 /* Mini-libreria — Settimana VII Giorno I
    Stile minimal: il focus è sulla logica JS, non sul layout. */
 
-
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -26,8 +27,184 @@ body {
   text-align: center;
 }
 
-.site-header h1 { margin: 0 0 8px; }
-.site-header p  { margin: 0; opacity: 0.85; }
-
+.site-header h1 {
+  margin: 0 0 8px;
+}
+.site-header p {
+  margin: 0;
+  opacity: 0.85;
+}
 
 /* Aggiungi qui le tue regole per form, lista libri, bottoni, ecc. */
+
+.form-section h2,
+.lista-section h2 {
+  margin: 0 0 16px;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+
+.campo {
+  margin-bottom: 14px;
+}
+
+.campo label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.campo input:focus,
+.campo select:focus {
+  outline: 2px solid hsl(220, 50%, 55%);
+  outline-offset: 0;
+}
+
+/* Il campo nascosto deve sparire davvero (display sovrascriverebbe hidden) */
+[hidden] {
+  display: none !important;
+}
+
+.btn-primary {
+  background: hsl(220, 50%, 25%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: hsl(220, 50%, 32%);
+}
+
+/* lista libri */
+
+.lista-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.lista-header h2 {
+  margin: 0;
+}
+
+.btn-svuota {
+  background: white;
+  color: #d32f2f;
+  border: 1px solid #d32f2f;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn-svuota:hover {
+  background: #d32f2f;
+  color: #fff;
+}
+
+.info-storage {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #666;
+}
+
+#lista-libri {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#lista-libri li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-left: 4px solid hsl(220, 50%, 25%);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+
+#lista-libri li.letto {
+  border-left-color: #6aaa7c;
+  background: #fafafa;
+}
+
+.info > span:first-child {
+  font-weight: 700;
+}
+
+#lista-libri li.letto .info > span:first-child {
+  color: #888;
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 8px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #555;
+  background: #eee;
+  border-radius: 999px;
+}
+
+.meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.azioni {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+#lista-libri li.letto .azioni {
+  color: #4a9a63;
+  font-weight: 700;
+}
+
+.azioni button {
+  background: #fff;
+  color: #1a1a1a;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.azioni button:hover {
+  background: #f0f0f0;
+}
+
+/* Su schermi stretti i bottoni vanno sotto */
+@media (max-width: 520px) {
+  #lista-libri li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

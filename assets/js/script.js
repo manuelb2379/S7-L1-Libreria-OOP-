@@ -1,13 +1,3 @@
-// Mini-libreria — Settimana VII Giorno I
-//
-// Devi fare 4 cose:
-// 1. Definire una classe Libro (titolo, autore, anno, letto)
-// 2. Definire una classe LibroDigitale che estende Libro (aggiunge formato, dimensioneMb)
-// 3. Aggiungere un listener al form che crea una nuova istanza e la aggiunge all'array
-// 4. Renderizzare la lista nel <ul id="lista-libri"> via innerHTML
-//
-// Bonus: bottone "Segna come letto" su ogni elemento, gestito con event delegation.
-
 
 // === Classi ===
 class Libro {
@@ -28,6 +18,11 @@ class Libro {
     formato() {
         return 'cartaceo';
     }
+
+    static fromJSON(d) {
+        return Object.assign(new this(d.titolo, d.autore, d.anno), d);
+    }
+
 };
 
 class LibroDigitale extends Libro {
@@ -40,18 +35,44 @@ class LibroDigitale extends Libro {
     formato() {
         return `digitale (${this.dimensioneMb} MB)`;
     }
+
+    static fromJSON(d) {
+        return Object.assign(new this(d.titolo, d.autore, d.anno, d.dimensioneMb), d);
+    }
+}
+
+//====== Local Storage =======
+
+const STORAGE_KEY = 'libri';
+
+function salvaLibri() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(libri));
+}
+
+function caricaLibri() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '[]')
+            .map((d) => d.dimensioneMb !== undefined
+                ? LibroDigitale.fromJSON(d)
+                : Libro.fromJSON(d));
+    } catch (err) {
+        console.error('Dati in localStorage non validi:', err);
+        return [];
+    }
 }
 
 
 // === Stato (array di libri) ===
 
-let libri = [];
+let libri = caricaLibri();
 
 const listaLibri = document.querySelector('#lista-libri');
 const contatore = document.querySelector('#contatore');
 const form = document.querySelector('#aggiungi-libro');
 const selectFormato = document.querySelector('#formato');
 const campoDimensione = document.querySelector('#campo-dimensione');
+
+const svuotaTutto = document.querySelector("#svuota-tutto")
 
 // === Render ===
 
@@ -142,6 +163,7 @@ form.addEventListener('submit', (e) => {
     }
 
     libri.push(nuovo);
+    salvaLibri();
     renderLibri();
 
     e.target.reset();
@@ -157,7 +179,6 @@ listaLibri.addEventListener("click", (e) => {
     if (!bottone) return;
 
     const id = bottone.closest("li").dataset.id;
-
     const azione = bottone.dataset.azione;
 
     if (azione === "leggi") {
@@ -166,6 +187,18 @@ listaLibri.addEventListener("click", (e) => {
     } else if (azione === "rimuovi") {
         libri = libri.filter((l) => l.id !== id);
     }
+
+    salvaLibri();
     renderLibri();
 
 });
+
+
+svuotaTutto.addEventListener("click", () => {
+    if(confirm('Sei sicuro di voler cancellare tutto il contenuto?'))
+    libri = [];
+    localStorage.removeItem(STORAGE_KEY);
+    renderLibri();
+});
+
+renderLibri();
