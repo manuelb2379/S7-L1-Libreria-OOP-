@@ -98,6 +98,22 @@ function mostraErrore(msg) {
 // === Render ===
 
 function renderLibri() {
+
+    // Se non ci libri, mostra un messaggio informativo
+    if (libri.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'Al momento non ci sono libri inseriti nella tua libreria, ricercane uno oppure inseriscilo tu a mano!';
+
+        // Puoi opzionalmente aggiungere una classe per personalizzarlo (es. testo centrato o grigio)
+        li.style.justifyContent = 'center';
+        li.style.color = '#666';
+        li.style.fontStyle = 'italic';
+
+        listaLibri.replaceChildren(li);
+        contatore.textContent = 0;
+        return; // Interrompe l'esecuzione della funzione qui
+    }
+
     const righe = libri.map((l) => {
         const li = document.createElement('li');
 
