@@ -17,6 +17,27 @@
 
   <main class="container">
 
+    <section class="cerca-section">
+      <h2>Cerca</h2>
+      <div class="campo">
+        <label for="cerca">
+          <input type="text" id="cerca" placeholder="Inserisci il titolo oppure il nome dell'autore del libro">
+        </label>
+      </div>
+
+      <div id="spinner" class="spinner" hidden>
+        Caricamento in corso...
+      </div>
+      <div id="errore" class="alert alert-danger" hidden></div>
+
+      <div>
+        <ul id="risultati" class="risultati">
+
+        </ul>
+      </div>
+
+    </section>
+
     <section class="form-section">
       <!-- form per aggiungere un libro: titolo, autore, anno, formato (cartaceo/digitale) -->
       <h2>Aggiungi un libro</h2>

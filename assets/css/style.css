@@ -37,6 +37,13 @@ body {
 
 /* Aggiungi qui le tue regole per form, lista libri, bottoni, ecc. */
 
+section {
+  background-color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 50px;
+}
+
 .form-section h2,
 .lista-section h2 {
   margin: 0 0 16px;
@@ -199,6 +206,91 @@ body {
 
 .azioni button:hover {
   background: #f0f0f0;
+}
+
+/*aggiunte S7 L3*/
+
+.spinner {
+  margin-bottom: 14px;
+  font-style: italic;
+  color: #666;
+}
+
+/* alert di errore */
+.alert {
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  background: #fdecea;
+  color: #b71c1c;
+  border: 1px solid #f5c6cb;
+}
+
+/* lista risultati */
+.risultati {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.risultati li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-left: 4px solid hsl(220, 50%, 55%);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  padding: 10px 14px;
+  margin-bottom: 10px;
+}
+
+
+/* Bottone "Aggiungi" dei risultati */
+.risultati button {
+  flex-shrink: 0;
+  background: #fff;
+  color: #1a1a1a;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 12px;
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.risultati button:hover:not(:disabled) {
+  background: #f0f0f0;
+}
+
+/* Bottone dopo il click: "✓ Aggiunto" */
+.risultati button:disabled {
+  color: #4a9a63;
+  border-color: #4a9a63;
+  cursor: default;
+}
+
+.spinner::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 8px;
+  vertical-align: -2px;
+  border: 2px solid #ccc;
+  border-top-color: hsl(220, 50%, 25%);
+  border-radius: 50%;
+  animation: gira 0.8s linear infinite;
+}
+
+@keyframes gira {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Su schermi stretti i bottoni vanno sotto */
